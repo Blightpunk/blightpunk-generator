@@ -3,16 +3,14 @@ import streamlit as st
 import random
 import io
 
-# ==== Importar tudo que já funciona no seu código base ====
 from teste import (
     sorteio_idade, sorteio_fardo, distribuir_atributos, exibir_habilidades,
     sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
     fardos_oficiais
 )
 
-st.set_page_config(page_title="Gerador de Personagem – Blightpunk", layout="centered")
+st.set_page_config(page_title="Gerador de Personagem – Blightpunk", layout="wide")
 st.title("🕯️ Gerador de Personagem – Blightpunk")
-
 st.markdown("---")
 
 if st.button("📜 Revelar Personagem"):
@@ -25,34 +23,48 @@ if st.button("📜 Revelar Personagem"):
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
 
-    st.subheader("1. Idade")
-    st.write(f"{idade} (D4: {idade_d4})")
+    col1, col2, col3 = st.columns(3)
+    with col1:
+        st.subheader("1. Idade")
+        st.write(f"{idade} (D4: {idade_d4})")
 
-    st.subheader("2. Fardo e Arcano")
-    st.write(f"**{fardo_nome}**  ")
-    st.write(f"Arcano: *{arcano}*")
+    with col2:
+        st.subheader("2. Fardo")
+        st.write(f"**{fardo_nome}**")
 
-    st.subheader("3. Atributos")
-    for k, v in atributos.items():
-        st.write(f"{k}: {v}")
+    with col3:
+        st.subheader("3. Arcano")
+        st.write(f"*{arcano}*")
 
-    st.subheader("4. Habilidades")
-    for nome, valor in habilidades:
-        st.write(f"{nome}: +{valor}%")
+    st.markdown("---")
+    st.subheader("4. Atributos")
+    col4, col5 = st.columns(2)
+    for i, (k, v) in enumerate(atributos.items()):
+        with col4 if i % 2 == 0 else col5:
+            st.write(f"{k}: {v}")
 
-    st.subheader("5. Alinhamento (Cortina)")
+    st.subheader("5. Habilidades")
+    col6, col7 = st.columns(2)
+    for i, (nome, valor) in enumerate(habilidades):
+        with col6 if i % 2 == 0 else col7:
+            st.write(f"{nome}: +{valor}%")
+
+    st.subheader("6. Alinhamento (Cortina)")
     st.write(f"{cortina} (D4: {cortina_d4})")
 
-    st.subheader("6. Estigmas")
+    st.subheader("7. Estigmas")
     for est in estigmas:
         st.markdown(f"**[{est['Tipo']}] {est['Nome']} – Grau {est['Grau']}** (Rolagem: {est['Rolagem']})")
         st.markdown(f"→ {est['Descrição']}")
 
-    st.subheader("8. Estado de Fortuna")
-    st.write(f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
+    col8, col9 = st.columns(2)
+    with col8:
+        st.subheader("8. Estado de Fortuna")
+        st.write(f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
 
-    st.subheader("9. Ce qu’il reste de moi")
-    st.write(f"{plaie} (D30: {plaie_roll})")
+    with col9:
+        st.subheader("9. Ce qu’il reste de moi")
+        st.write(f"{plaie} (D30: {plaie_roll})")
 
     st.success("Personagem Revelado!")
 
