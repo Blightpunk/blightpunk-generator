@@ -31,7 +31,6 @@ if st.session_state.gerado:
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
 
-
 col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
