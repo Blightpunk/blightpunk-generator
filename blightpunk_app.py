@@ -20,7 +20,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 st.title("🕯️ Gerador de Personagem – Blightpunk")
-st.markdown("*“O horror não está naquilo que é estranho demais, mas naquilo que se parece demais com a verdade.”*  
+st.markdown("*"O horror não está naquilo que é estranho demais, mas naquilo que se parece demais com a verdade."*  
 — H.P. Lovecraft, adaptado por você")
 
 st.markdown("---")
