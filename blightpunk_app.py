@@ -30,7 +30,7 @@ if st.session_state.gerado:
     estigmas = sortear_estigmas()
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
-
+    st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
