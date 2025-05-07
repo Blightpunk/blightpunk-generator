@@ -1,6 +1,7 @@
 
 import streamlit as st
 import random
+import io
 
 # ==== Importar tudo que já funciona no seu código base ====
 from teste import (
@@ -54,6 +55,31 @@ if st.button("📜 Revelar Personagem"):
     st.write(f"{plaie} (D30: {plaie_roll})")
 
     st.success("Personagem Revelado!")
+
+    # Exportação para .txt
+    export_text = io.StringIO()
+    export_text.write(f"FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
+    export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
+    export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
+    export_text.write("Atributos:\n")
+    for k, v in atributos.items():
+        export_text.write(f"- {k}: {v}\n")
+    export_text.write("\nHabilidades:\n")
+    for nome, valor in habilidades:
+        export_text.write(f"- {nome}: +{valor}%\n")
+    export_text.write(f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n")
+    export_text.write("Estigmas:\n")
+    for est in estigmas:
+        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n")
+    export_text.write(f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
+    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n")
+
+    st.download_button(
+        label="💾 Baixar Ficha em .txt",
+        data=export_text.getvalue(),
+        file_name="ficha_blightpunk.txt",
+        mime="text/plain"
+    )
 
 else:
     st.info("Clique no botão acima para gerar um novo personagem.")
