@@ -9,8 +9,20 @@ from teste import (
     fardos_oficiais
 )
 
-st.set_page_config(page_title="Gerador de Personagem – Blightpunk", layout="wide")
+st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
+st.markdown("""
+<style>
+    .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 st.title("🕯️ Gerador de Personagem – Blightpunk")
+st.markdown("*“O horror não está naquilo que é estranho demais, mas naquilo que se parece demais com a verdade.”*  
+— H.P. Lovecraft, adaptado por você")
+
 st.markdown("---")
 
 if st.button("📜 Revelar Personagem"):
@@ -23,48 +35,54 @@ if st.button("📜 Revelar Personagem"):
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
 
-    col1, col2, col3 = st.columns(3)
+    # Bloco superior: Fardo, Arcano, Idade
+    st.subheader("Identidade");
+    col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
-        st.subheader("1. Idade")
-        st.write(f"{idade} (D4: {idade_d4})")
-
+        st.write(f"**Idade**: {idade} (D4: {idade_d4})")
     with col2:
-        st.subheader("2. Fardo")
-        st.write(f"**{fardo_nome}**")
-
+        st.write(f"**Fardo**: {fardo_nome}")
     with col3:
-        st.subheader("3. Arcano")
-        st.write(f"*{arcano}*")
+        st.write(f"**Arcano**: *{arcano}*")
 
     st.markdown("---")
-    st.subheader("4. Atributos")
-    col4, col5 = st.columns(2)
-    for i, (k, v) in enumerate(atributos.items()):
-        with col4 if i % 2 == 0 else col5:
-            st.write(f"{k}: {v}")
 
-    st.subheader("5. Habilidades")
-    col6, col7 = st.columns(2)
+    # Atributos
+    st.subheader("Atributos")
+    col_a1, col_a2 = st.columns(2)
+    atributos_items = list(atributos.items())
+    half = len(atributos_items) // 2
+    for k, v in atributos_items[:half]:
+        col_a1.write(f"{k}: {v}")
+    for k, v in atributos_items[half:]:
+        col_a2.write(f"{k}: {v}")
+
+    # Habilidades
+    st.subheader("Habilidades")
+    col_h1, col_h2 = st.columns(2)
     for i, (nome, valor) in enumerate(habilidades):
-        with col6 if i % 2 == 0 else col7:
-            st.write(f"{nome}: +{valor}%")
+        (col_h1 if i % 2 == 0 else col_h2).write(f"{nome}: +{valor}%")
 
-    st.subheader("6. Alinhamento (Cortina)")
+
+    st.subheader("Alinhamento (Cortina)")
     st.write(f"{cortina} (D4: {cortina_d4})")
 
-    st.subheader("7. Estigmas")
+
+    st.subheader("Estigmas")
     for est in estigmas:
         st.markdown(f"**[{est['Tipo']}] {est['Nome']} – Grau {est['Grau']}** (Rolagem: {est['Rolagem']})")
         st.markdown(f"→ {est['Descrição']}")
 
-    col8, col9 = st.columns(2)
-    with col8:
-        st.subheader("8. Estado de Fortuna")
+    # Fortuna e Ce qu'il reste
+    colf1, colf2 = st.columns(2)
+    with colf1:
+        st.subheader("Estado de Fortuna")
         st.write(f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
 
-    with col9:
-        st.subheader("9. Ce qu’il reste de moi")
+    with colf2:
+        st.subheader("Ce qu’il reste de moi")
         st.write(f"{plaie} (D30: {plaie_roll})")
+
 
     st.success("Personagem Revelado!")
 
@@ -85,6 +103,7 @@ if st.button("📜 Revelar Personagem"):
         export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n")
     export_text.write(f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
     export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n")
+
 
     st.download_button(
         label="💾 Baixar Ficha em .txt",
