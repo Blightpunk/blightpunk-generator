@@ -4,9 +4,9 @@ import random
 import io
 
 from teste import (
-    sorteio_idade, sorteio_fardo, distribuir_atributos, exibir_habilidades,
-    sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
-    fardos_oficiais
+    sorteio_idade, sorteio_fardo, distribuir_atributos,
+    exibir_habilidades, sorteio_cortina, sortear_estigmas,
+    etat_de_fortune_d10, ce_quil_reste, fardos_oficiais
 )
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
@@ -30,6 +30,7 @@ if st.session_state.gerado:
     estigmas = sortear_estigmas()
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
+
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
 
     col1, col2, col3 = st.columns([1, 2, 2])
@@ -49,13 +50,13 @@ if st.session_state.gerado:
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
     for k, v in atributos_items[:half]:
-        mod = v["mod"]
         val = v["final"]
+        mod = v["mod"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
         col4.write(f"{k}: {val}{bonus}")
     for k, v in atributos_items[half:]:
-        mod = v["mod"]
         val = v["final"]
+        mod = v["mod"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
         col5.write(f"{k}: {val}{bonus}")
 
@@ -88,8 +89,8 @@ if st.session_state.gerado:
     export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
     export_text.write("Atributos:\n")
     for k, v in atributos.items():
-        mod = v["mod"]
         val = v["final"]
+        mod = v["mod"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
         export_text.write(f"- {k}: {val}{bonus}\n")
     export_text.write("\nHabilidades:\n")
