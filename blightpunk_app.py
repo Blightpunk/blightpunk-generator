@@ -90,29 +90,33 @@ st.caption(f"Ajustes por idade: {modificadores_txt.get(idade_d4)}")
 
     st.success("Personagem Revelado!")
 
-    export_text = io.StringIO()
-    export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
-    export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
-    export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
-    export_text.write("Atributos:\n")
-    for k, v in atributos.items():
-        val = v["final"]
-        mod = v["mod"]
-        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        export_text.write(f"- {k}: {val}{bonus}\n")
-    export_text.write("\nHabilidades:\n")
-    for nome, valor in habilidades:
-        export_text.write(f"- {nome}: +{valor}%\n")
-    export_text.write(f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n")
-    export_text.write("Estigmas:\n")
-    for est in estigmas:
-        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n")
-    export_text.write(f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
-    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n")
+    export_text = io.BytesIO()
+conteudo = ""
 
-    st.download_button(
-        label="💾 Baixar Ficha em .txt",
-        data=export_text.getvalue(),
-        file_name="ficha_blightpunk.txt",
-        mime="text/plain"
-    )
+conteudo += "FICHA DE PERSONAGEM – BLIGHTPUNK\n\n"
+conteudo += f"Idade: {idade} (D4: {idade_d4})\n"
+conteudo += f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n"
+conteudo += "Atributos:\n"
+for k, v in atributos.items():
+    val = v["final"]
+    mod = v["mod"]
+    bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+    conteudo += f"- {k}: {val}{bonus}\n"
+conteudo += "\nHabilidades:\n"
+for nome, valor in habilidades:
+    conteudo += f"- {nome}: +{valor}%\n"
+conteudo += f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n"
+conteudo += "Estigmas:\n"
+for est in estigmas:
+    conteudo += f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n"
+conteudo += f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
+conteudo += f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n"
+
+export_text.write(conteudo.encode('utf-8'))
+
+st.download_button(
+    label="💾 Baixar Ficha em .txt",
+    data=export_text.getvalue(),
+    file_name="ficha_blightpunk.txt",
+    mime="text/plain"
+)
