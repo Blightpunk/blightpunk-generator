@@ -2,14 +2,8 @@ import streamlit as st
 import random
 import io
 import importlib
-import teste
-importlib.reload(teste)
-
-from teste import (
-    sorteio_idade, sorteio_fardo, distribuir_atributos,
-    exibir_habilidades, sorteio_cortina, sortear_estigmas,
-    etat_de_fortune_d10, ce_quil_reste, fardos_oficiais
-)
+import teste  # importa o módulo inteiro
+importlib.reload(teste)  # força recarregamento sempre que o app roda
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
 st.title("🕯️ Gerador de Personagem – Blightpunk")
@@ -24,14 +18,14 @@ def gerar_personagem():
 st.button("📜 Revelar Personagem", on_click=gerar_personagem)
 
 if st.session_state.gerado:
-    idade_d4, idade = sorteio_idade()
-    fardo_id, (fardo_nome, arcano) = sorteio_fardo()
-    atributos = distribuir_atributos(idade_d4)
-    habilidades = exibir_habilidades(fardo_id)
-    cortina_d4, cortina = sorteio_cortina(fardo_id)
-    estigmas = sortear_estigmas()
-    fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
-    plaie_roll, plaie = ce_quil_reste()
+    idade_d4, idade = teste.sorteio_idade()
+    fardo_id, (fardo_nome, arcano) = teste.sorteio_fardo()
+    atributos = teste.distribuir_atributos(idade_d4)
+    habilidades = teste.exibir_habilidades(fardo_id)
+    cortina_d4, cortina = teste.sorteio_cortina(fardo_id)
+    estigmas = teste.sortear_estigmas()
+    fortune_roll, fortune_etat, faixa = teste.etat_de_fortune_d10()
+    plaie_roll, plaie = teste.ce_quil_reste()
 
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
 
