@@ -334,7 +334,7 @@ fardos_oficiais = {
     10: ("Le Savant (O Cientista)", "La Roue de Fortune (A Roda da Fortuna)"),
     11: ("L’Ombresang (A Sombra Sangrenta)", "La Force (A Força)"),
     12: ("Le Fossoyeur (O Coveiro)", "Le Pendu (O Enforcado)"),
-    13: ("Le Mort (O Morto)", "L’Arcane Sans Nom (O Arcano Sem Nome)"),
+    13: ("Le Mort (O Morto)", "La Mort(A Morte)"),
     14: ("Le Docteur (O Médico)", "Tempérance (A Temperança)"),
     15: ("Le Paysan (O Camponês)", "Le Diable (O Diabo)"),
     16: ("Le Truand (O Malandro)", "La Maison Dieu (A Torre)"),
