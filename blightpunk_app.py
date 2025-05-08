@@ -37,6 +37,13 @@ if st.session_state.gerado:
     with col1:
         st.subheader("1. Idade")
         st.write(f"{idade} (D4: {idade_d4})")
+        modificadores_txt = {
+    1: "Présence +5, Raisonnement -5",
+    2: "Sem modificadores.",
+    3: "Sem modificadores.",
+    4: "Raisonnement +5, Corps -5"
+}
+st.caption(f"Ajustes por idade: {modificadores_txt.get(idade_d4)}")
     with col2:
         st.subheader("2. Fardo")
         st.write(f"{fardo_nome}")
