@@ -110,67 +110,67 @@ st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
 if obj_regra:
     st.warning(f"⚠️ Regra Especial: {obj_regra}")
     st.success("Personagem Revelado!")
-
     export_text = io.BytesIO()
     conteudo = ""
-conteudo += "████████████████████████████████████████████\n"
-conteudo += "           FICHA DE FARDO – BLIGHTPUNK\n"
-conteudo += "████████████████████████████████████████████\n\n"
+    conteudo += "████████████████████████████████████████████\n"
+    conteudo += "           FICHA DE FARDO – BLIGHTPUNK\n"
+    conteudo += "████████████████████████████████████████████\n\n"
 
-conteudo += "ID DA REVELAÇÃO\n"
-conteudo += f"→ Âge (Idade): {idade} (D4: {idade_d4})\n"
-conteudo += f"→ Fardeau (Fardo): {fardo_nome}\n"
-conteudo += f"→ Arcane (Arcano): {arcano}\n\n"
+    conteudo += "ID DA REVELAÇÃO\n"
+    conteudo += f"→ Âge (Idade): {idade} (D4: {idade_d4})\n"
+    conteudo += f"→ Fardeau (Fardo): {fardo_nome}\n"
+    conteudo += f"→ Arcane (Arcano): {arcano}\n\n"
 
-conteudo += "────────────────────────────────────────────\n"
-conteudo += "ATTRIBUTS (ATRIBUTOS)\n"
-conteudo += "────────────────────────────────────────────\n"
-for k, v in atributos.items():
-    val = v["final"]
-    mod = v["mod"]
-    bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-    conteudo += f"{k}: {val}{bonus}\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += "ATTRIBUTS (ATRIBUTOS)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    for k, v in atributos.items():
+        val = v["final"]
+        mod = v["mod"]
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        conteudo += f"{k}: {val}{bonus}\n"
 
-conteudo += "\n────────────────────────────────────────────\n"
-conteudo += "COMPÉTENCES (HABILIDADES)\n"
-conteudo += "────────────────────────────────────────────\n"
-for nome, valor in habilidades:
-    conteudo += f"- {nome}: +{valor}%\n"
+    conteudo += "\n────────────────────────────────────────────\n"
+    conteudo += "COMPÉTENCES (HABILIDADES)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    for nome, valor in habilidades:
+        conteudo += f"- {nome}: +{valor}%\n"
 
-conteudo += "\n────────────────────────────────────────────\n"
-conteudo += "ALIGNEMENT (CORTINA)\n"
-conteudo += "────────────────────────────────────────────\n"
-conteudo += f"{cortina} (D4: {cortina_d4})\n"
+    conteudo += "\n────────────────────────────────────────────\n"
+    conteudo += "ALIGNEMENT (CORTINA)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += f"{cortina} (D4: {cortina_d4})\n"
 
-conteudo += "\n────────────────────────────────────────────\n"
-conteudo += "STIGMATES (ESTIGMAS)\n"
-conteudo += "────────────────────────────────────────────\n"
-for est in estigmas:
-    conteudo += f"[{est['Tipo']}] {est['Nome']} — Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n"
-    conteudo += f"→ {est['Descrição']}\n"
+    conteudo += "\n────────────────────────────────────────────\n"
+    conteudo += "STIGMATES (ESTIGMAS)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    for est in estigmas:
+        conteudo += f"[{est['Tipo']}] {est['Nome']} — Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n"
+        conteudo += f"→ {est['Descrição']}\n"
 
-conteudo += "\n────────────────────────────────────────────\n"
-conteudo += "ÉTAT DE FORTUNE (ESTADO DE FORTUNA)\n"
-conteudo += "────────────────────────────────────────────\n"
-conteudo += f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
+    conteudo += "\n────────────────────────────────────────────\n"
+    conteudo += "ÉTAT DE FORTUNE (ESTADO DE FORTUNA)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
 
-conteudo += "\n────────────────────────────────────────────\n"
-conteudo += "CE QU’IL RESTE DE MOI (O QUE RESTOU DE MIM)\n"
-conteudo += "────────────────────────────────────────────\n"
-conteudo += f"{plaie} (D30: {plaie_roll})\n\n"
+    conteudo += "\n────────────────────────────────────────────\n"
+    conteudo += "CE QU’IL RESTE DE MOI (O QUE RESTOU DE MIM)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += f"{plaie} (D30: {plaie_roll})\n\n"
 
-conteudo += "────────────────────────────────────────────\n"
-conteudo += "OBJET TROUVÉ AU COMMENCEMENT (OBJETO ENCONTRADO)\n"
-conteudo += "────────────────────────────────────────────\n"
-conteudo += f"{obj_nome} (#{obj_roll:02d})\n"
-conteudo += f"→ Tipo: {obj_tipo} | Dano: {obj_dano}\n"
-if obj_regra:
-    conteudo += f"⚠️ Regra Especial: {obj_regra}\n"
-conteudo += "\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += "OBJET TROUVÉ AU COMMENCEMENT (OBJETO ENCONTRADO)\n"
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += f"{obj_nome} (#{obj_roll:02d})\n"
+    conteudo += f"→ Tipo: {obj_tipo} | Dano: {obj_dano}\n"
+    if obj_regra:
+        conteudo += f"⚠️ Regra Especial: {obj_regra}\n"
+    conteudo += "\n"
 
-conteudo += "────────────────────────────────────────────\n"
-conteudo += "ARCHIVE DU FARD — PARIS, 1919\n"
-export_text.write(conteudo.encode('utf-8'))
+    conteudo += "────────────────────────────────────────────\n"
+    conteudo += "ARCHIVE DU FARD — PARIS, 1919\n"
+
+    export_text.write(conteudo.encode('utf-8'))
     pdf_arquivo = gerar_pdf_com_fundo(conteudo, "images/papel_velho.jpg")
     col_txt, col_pdf = st.columns(2)
 
@@ -189,3 +189,4 @@ export_text.write(conteudo.encode('utf-8'))
             file_name="ficha_blightpunk.pdf",
             mime="application/pdf"
         )
+
