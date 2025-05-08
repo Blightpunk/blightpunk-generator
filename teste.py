@@ -356,42 +356,39 @@ import random
 
 def distribuir_atributos(idade_d4):
     nomes_atributos = {
-        "Corps": "Corpo",
-        "Clarté": "Clareza",
-        "Raisonnement": "Raciocínio",
-        "Présence": "Presença"
+        "Corps": "Corpo",              # Força física, resistência, ação
+        "Clarté": "Clareza",           # Percepção, atenção, lucidez imediata
+        "Raisonnement": "Raciocínio",  # Lógica, cálculo, dedução
+        "Présence": "Presença"         # Carisma, autoridade, impacto social
     }
 
-    atributos_base = {k: 30 for k in nomes_atributos}
+    atributos = {k: 30 for k in nomes_atributos.keys()}
     pontos = 80
 
     while pontos > 0:
-        escolha = random.choice(list(atributos_base.keys()))
-        if atributos_base[escolha] < 80:
-            atributos_base[escolha] += 1
+        escolha = random.choice(list(atributos.keys()))
+        if atributos[escolha] < 80:
+            atributos[escolha] += 1
             pontos -= 1
 
-    modificadores = {k: 0 for k in atributos_base}
+    modificadores = {
+        1: {"Présence": 5, "Raisonnement": -5},
+        2: {}, 3: {},
+        4: {"Raisonnement": 5, "Corps": -5},
+        5: {"Raisonnement": 5, "Corps": -5},
+        6: {"Raisonnement": 10, "Corps": -10}
+    }.get(idade_d4, {})
 
-    if idade_d4 == 1:
-        modificadores["Présence"] += 5
-        modificadores["Raisonnement"] -= 5
-    elif idade_d4 == 4:
-        modificadores["Raisonnement"] += 5
-        modificadores["Corps"] -= 5
-    elif idade_d4 == 5:
-        modificadores["Raisonnement"] += 10
-        modificadores["Corps"] -= 10
+    atributos_modificados = {}
+    for k in atributos:
+        mod = modificadores.get(k, 0)
+        valor_final = atributos[k] + mod
+        atributos_modificados[f"{k} ({nomes_atributos[k]})"] = {
+            "final": valor_final,
+            "mod": mod
+        }
 
-    atributos_finais = {
-        f"{k} ({nomes_atributos[k]})": {
-            "base": atributos_base[k],
-            "mod": modificadores[k],
-            "final": atributos_base[k] + modificadores[k]
-        } for k in atributos_base
-    }
-
-    return atributos_finais
+    return atributos_modificados
 
 # === PASSO 4 – Compétences (com traduções) ===
 habilidades_por_fardo = {
