@@ -531,7 +531,7 @@ def etat_de_fortune_d10():
         return roll, "Aisé (Afortunado)", "1 a 8"
 
 
-# === PASSO 9 – Ce qu’il reste de moi (D30) ===
+# === PASSO 9 – Ce qu’il reste de moi(O Que Restou de Mim) (D30) ===
 plaies = {
     1: "Um lenço encardido com as iniciais “S.M.” bordadas em dourado.",
     2: "Um pedaço de espelho trincado, com uma inscrição apagada no verso.",
@@ -599,7 +599,7 @@ for e in estigmas:
     print(f"  [{e['Tipo']}] {e['Nome']} – Grau {e['Grau']} (Rolagem: {e['Rolagem']})")
     print(f"    → {e['Descrição']}")
 print(f"PASSO 8 – État de Fortune: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
-print(f"PASSO 9 – Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})")
+print(f"PASSO 9 – Ce qu’il reste de moi(O Que Restou de Mim): {plaie} (D30: {plaie_roll})")
 
 
 # This is a sample Python script.
