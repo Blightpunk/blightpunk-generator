@@ -5,7 +5,7 @@ import io
 from teste import (
     sorteio_idade, sorteio_fardo, distribuir_atributos, exibir_habilidades,
     sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
-    fardos_oficiais
+    fardos_oficiais, aplicar_peso_da_idade
 )
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
@@ -23,14 +23,15 @@ st.button("📜 Revelar Personagem", on_click=gerar_personagem)
 if st.session_state.gerado:
     idade_d4, idade = sorteio_idade()
     fardo_id, (fardo_nome, arcano) = sorteio_fardo()
-    atributos = distribuir_atributos(idade_d4)
+    atributos = distribuir_atributos()
+    atributos, modificadores = aplicar_peso_da_idade(atributos, idade_d4)
     habilidades = exibir_habilidades(fardo_id)
     cortina_d4, cortina = sorteio_cortina(fardo_id)
     estigmas = sortear_estigmas()
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
-
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
+
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
@@ -48,11 +49,15 @@ if st.session_state.gerado:
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
     for k, v in atributos_items[:half]:
-        bonus = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
-        col4.write(f"{k}: {v['final']}{bonus}")
+        attr_base = k.split()[0]
+        mod = modificadores.get(attr_base, 0)
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        col4.write(f"{k}: {v}{bonus}")
     for k, v in atributos_items[half:]:
-        bonus = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
-        col5.write(f"{k}: {v['final']}{bonus}")
+        attr_base = k.split()[0]
+        mod = modificadores.get(attr_base, 0)
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        col5.write(f"{k}: {v}{bonus}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
@@ -77,16 +82,16 @@ if st.session_state.gerado:
 
     st.success("Personagem Revelado!")
 
-    # Exportar para .txt
     export_text = io.StringIO()
     export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
     export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
     export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
     export_text.write("Atributos:\n")
     for k, v in atributos.items():
-        mod = v['mod']
-        bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
-        export_text.write(f"- {k}: {v['final']}{bonus}\n")
+        attr_base = k.split()[0]
+        mod = modificadores.get(attr_base, 0)
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        export_text.write(f"- {k}: {v}{bonus}\n")
     export_text.write("\nHabilidades:\n")
     for nome, valor in habilidades:
         export_text.write(f"- {nome}: +{valor}%\n")
