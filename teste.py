@@ -1,4 +1,3 @@
-
 import random
 import pandas as pd
 
@@ -43,7 +42,7 @@ def sorteio_fardo():
     fardo_id = random.randint(0, 21)
     return fardo_id, fardos_oficiais[fardo_id]
 
-# === PASSO 3 – Atributos com Modificadores Aplicados ===
+# === PASSO 3 – Atributos (30 base + 80 distribuídos, máx. 80) ===
 def distribuir_atributos(idade_d4):
     nomes_atributos = {
         "Corps": "Corpo",
