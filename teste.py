@@ -570,6 +570,613 @@ def ce_quil_reste():
     d30 = random.randint(1, 30)
     return d30, plaies[d30]
 
+objetos_abandono = {
+    0: {
+        "nome": "Garrafa quebrada, ainda cheirando a álcool barato",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    1: {
+        "nome": "Pé de cabra com símbolo maçônico",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    2: {
+        "nome": "Cruz de madeira com uma lasca solta — já foi empunhada com fé",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    3: {
+        "nome": "Tesoura escolar enferrujada",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    4: {
+        "nome": "Pá de jardinagem com cabo de osso",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    5: {
+        "nome": "Canivete de açougueiro, sem trava",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    6: {
+        "nome": "Corrente de portão com gancho adaptado",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    7: {
+        "nome": "Bastão de bengala com ponta de chumbo",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    8: {
+        "nome": "Estaca de madeira rachada, esculpida às pressas",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    9: {
+        "nome": "Revólver velho com apenas uma bala",
+        "tipo": "Pistola e revólver",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    },
+    10: {
+        "nome": "Machado de lenha com cabo rachado",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    11: {
+        "nome": "Ripa de cama com dois pregos tortos",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    12: {
+        "nome": "Espingarda de caça enferrujada, sem alça",
+        "tipo": "Espingarda",
+        "dano": "1D10",
+        "regra": "Rolar 1D6 para munição"
+    },
+    13: {
+        "nome": "Pedra amarrada num pano",
+        "tipo": "Improvisada",
+        "dano": "1D6",
+        "regra": ""
+    },
+    14: {
+        "nome": "Navalha de barbear com sangue seco",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    15: {
+        "nome": "Faca de cozinha, sem ponta, mas afiada nas beiradas",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    16: {
+        "nome": "Chave inglesa média com inscrição “Société Lumière”",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    17: {
+        "nome": "Pistola pequena escondida num sapato feminino",
+        "tipo": "Pistola e revólver",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    },
+    18: {
+        "nome": "Torniquete de ferro usado em amputações",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    19: {
+        "nome": "Cabo de guarda-chuva quebrado, com haste em aço pontiagudo",
+        "tipo": "Perfurante improvisado",
+        "dano": "1D4",
+        "regra": ""
+    },
+    20: {
+        "nome": "Pinça de açougue amassada, com pontas afiadas demais para conforto",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    21: {
+        "nome": "Cabo de panela de ferro, solto de um fogão abandonado",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    22: {
+        "nome": "Pé de cadeira com pregos na ponta",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    23: {
+        "nome": "Tesoura de costureira, com ponta lascada",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    24: {
+        "nome": "Cajado de madeira com entalhes religiosos — usado pra andar e castigar",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    25: {
+        "nome": "Florete de treinamento, usado em academias teatrais",
+        "tipo": "Perfurante leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    26: {
+        "nome": "Bastão de comando com ponta de latão — símbolo de um soldado degradado",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    27: {
+        "nome": "Par de algemas quebradas, uma argola pendurada",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    28: {
+        "nome": "Alavanca curta de trem, retirada de uma locomotiva desativada",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    29: {
+        "nome": "Facão agrícola com inscrição apagada",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    30: {
+        "nome": "Martelo de açougueiro com cabeça dupla",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    31: {
+        "nome": "Navalha dobrável com monograma do Professorado Nacional",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    32: {
+        "nome": "Faca de trincheira feita com lima",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    33: {
+        "nome": "Pistola compacta com brasão do exército imperial",
+        "tipo": "Pistola e revólver",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    },
+    34: {
+        "nome": "Caneta-tinteiro de cobre, com ponta afiada por uso indevido",
+        "tipo": "Improvisada (perfurante)",
+        "dano": "1D4",
+        "regra": ""
+    },
+    35: {
+        "nome": "Tesoura cirúrgica entortada",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    36: {
+        "nome": "Parafuso gigante com rosca quebrada, encontrado em trilho abandonado",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    37: {
+        "nome": "Punho de guarda-chuva com espeto oculto",
+        "tipo": "Perfurante improvisado",
+        "dano": "1D4",
+        "regra": ""
+    },
+    38: {
+        "nome": "Garfo de açougueiro de três pontas",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    39: {
+        "nome": "Porrete policial com marca da Cathédrale",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+        40: {
+        "nome": "Pincel de artista com ponta enrijecida em resina seca",
+        "tipo": "Improvisada (cortes leves)",
+        "dano": "1D4",
+        "regra": ""
+    },
+    41: {
+        "nome": "Agulha de crochê grossa, torta na ponta",
+        "tipo": "Perfurante leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    42: {
+        "nome": "Copo de vidro grosso, quebrado num lado",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    43: {
+        "nome": "Tampa de panela, usada como escudo e estilingue improvisado",
+        "tipo": "Improvisada (defensiva)",
+        "dano": "1D4",
+        "regra": "Pode ser usada para aparar"
+    },
+    44: {
+        "nome": "Tábua de passar roupa com marcas de queimadura",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    45: {
+        "nome": "Candelabro de bronze com dois braços quebrados",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    46: {
+        "nome": "Cinto com fivela de latão, enrolado na mão",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    47: {
+        "nome": "Tesoura de poda com ferrugem nas engrenagens",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    48: {
+        "nome": "Trinco de porta arrancado",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    49: {
+        "nome": "Cabide de ferro dobrado",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    50: {
+        "nome": "Garrafa de perfume com base reforçada",
+        "tipo": "Improvisada",
+        "dano": "1D4",
+        "regra": ""
+    },
+    51: {
+        "nome": "Estribo de cavalo com couro apodrecido",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    52: {
+        "nome": "Quebra-nozes de ferro",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    53: {
+        "nome": "Bastão de cortina com gancho na ponta",
+        "tipo": "Improvisada perfurante",
+        "dano": "1D4",
+        "regra": ""
+    },
+    54: {
+        "nome": "Sabre de treino infantil, pesado demais pro jogo e leve demais pra guerra",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    55: {
+        "nome": "Régua de madeira longa com entalhe de professorado",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    56: {
+        "nome": "Espeto de carne, ainda com marcas de carvão",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    57: {
+        "nome": "Corrimão de escada quebrado",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    58: {
+        "nome": "Vela derretida com ponta dura como pedra",
+        "tipo": "Improvisada leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    59: {
+        "nome": "Par de sapatos com salto de madeira, um deles com prego solto",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    60: {
+        "nome": "Caixa de música rachada — toca só uma nota quando acerta",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": "Efeito narrativo opcional ao toque"
+    },
+    61: {
+        "nome": "Tábua de passar roupa com dobradiça solta",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    62: {
+        "nome": "Vidro de compota estourado, com tampa presa",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    63: {
+        "nome": "Gaiola de passarinho amassada, com uma das barras afiadas",
+        "tipo": "Improvisada perfurante",
+        "dano": "1D4",
+        "regra": ""
+    },
+    64: {
+        "nome": "Corrente de relógio com pingente de bronze cortante",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    65: {
+        "nome": "Régua metálica escolar, entortada na ponta",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    66: {
+        "nome": "Pistola com símbolo da Société d’Éther, ainda quente ao toque",
+        "tipo": "Pistola e revólver",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    },
+    67: {
+        "nome": "Bota de couro com salto de madeira estourado",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    68: {
+        "nome": "Moldura de espelho rachada, com vidro estilhaçado preso",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    69: {
+        "nome": "Espeto de ferreiro, usado para moldar brasas",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    70: {
+        "nome": "Haste de sombrinha com ponta de cobre",
+        "tipo": "Improvisada perfurante",
+        "dano": "1D4",
+        "regra": ""
+    },
+    71: {
+        "nome": "Corrente de bicicleta com graxa seca",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    72: {
+        "nome": "Tridente de ferro pequeno, decorativo, arrancado de altar",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    73: {
+        "nome": "Gancho de açougueiro com resquícios orgânicos",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    74: {
+        "nome": "Cavilha de trilho de trem",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    75: {
+        "nome": "Ponta de guarda-chuva afiada propositalmente",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    76: {
+        "nome": "Candelabro de mesa partido ao meio",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    77: {
+        "nome": "Tampa de bueiro em miniatura (decoração), usada como escudo e porrete",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    78: {
+        "nome": "Soquete de lâmpada com cabo de pano",
+        "tipo": "Improvisada com intenção",
+        "dano": "1D6",
+        "regra": ""
+    },
+    79: {
+        "nome": "Pente de osso com dentes partidos",
+        "tipo": "Improvisada leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+        80: {
+        "nome": "Foice de jardim infantil, já oxidada",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    81: {
+        "nome": "Facão de mato com lâmina torta",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    82: {
+        "nome": "Lança de cena teatral, usada em tragédias",
+        "tipo": "Perfurante média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    83: {
+        "nome": "Martelo de pedreiro, com cabo curto",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    84: {
+        "nome": "Tesoura de alfaiate com ponta dupla",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    85: {
+        "nome": "Machado de talho, usado para cortar juntas",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    86: {
+        "nome": "Ponta de flecha histórica, adaptada num cabo de colher",
+        "tipo": "Perfurante leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    87: {
+        "nome": "Espada de desfile, sem fio",
+        "tipo": "Contundente leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    88: {
+        "nome": "Pistola artesanal feita com peça de engate",
+        "tipo": "Pistola improvisada",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    },
+    89: {
+        "nome": "Mangueira metálica de irrigação, rígida de ferrugem",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    90: {
+        "nome": "Lâmina de poda agrícola, com cabo serrado",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    91: {
+        "nome": "Tridente de pescador com ponta reconstruída em ferro fundido",
+        "tipo": "Perfurante pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    92: {
+        "nome": "Sabre de oficial com bainha rasgada",
+        "tipo": "Cortes e lâminas médias",
+        "dano": "1D6",
+        "regra": ""
+    },
+    93: {
+        "nome": "Cassetete com símbolo da Ordo Nocturne queimado a faca",
+        "tipo": "Contundente média",
+        "dano": "1D6",
+        "regra": ""
+    },
+    94: {
+        "nome": "Florete de combate real, cabo trincado",
+        "tipo": "Perfurante leve",
+        "dano": "1D4",
+        "regra": ""
+    },
+    95: {
+        "nome": "Faca de campo médico, usada para abrir roupas e carne",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    96: {
+        "nome": "Espingarda serrada de caça, com cheiro de pólvora antiga",
+        "tipo": "Espingarda curta",
+        "dano": "1D10",
+        "regra": "Rolar 1D6 para munição"
+    },
+    97: {
+        "nome": "Marreta de trilho, mais arma do que ferramenta",
+        "tipo": "Contundente pesada",
+        "dano": "1D8",
+        "regra": ""
+    },
+    98: {
+        "nome": "Adaga de ritual da Cathédrale, sem símbolo visível",
+        "tipo": "Cortes e lâminas pequenas",
+        "dano": "1D4",
+        "regra": ""
+    },
+    99: {
+        "nome": "Pistola compacta com número raspado e sangue seco no gatilho",
+        "tipo": "Pistola e revólver",
+        "dano": "1D8",
+        "regra": "Rolar 1D6 para munição"
+    }
+}
+def sortear_objeto_d100():
+    rolagem = random.randint(0, 99)
+    item = objetos_abandono[rolagem]
+    return rolagem, item["nome"], item["tipo"], item["dano"], item["regra"]    
+
 
 # === EXECUÇÃO GERAL ===
 idade_d4, idade = sorteio_idade()
@@ -600,7 +1207,12 @@ for e in estigmas:
     print(f"    → {e['Descrição']}")
 print(f"PASSO 8 – État de Fortune: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
 print(f"PASSO 9 – Ce qu’il reste de moi(O Que Restou de Mim): {plaie} (D30: {plaie_roll})")
-
+obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = sortear_objeto_d100()
+print(f"PASSO 10 – Objet trouvé au commencement:")
+print(f"  Objeto #{obj_roll:02d}: {obj_nome}")
+print(f"    → Tipo: {obj_tipo} | Dano: {obj_dano}")
+if obj_regra:
+    print(f"    ⚠️ Regra Especial: {obj_regra}")
 
 # This is a sample Python script.
 
