@@ -49,12 +49,12 @@ if st.session_state.gerado:
     col4, col5 = st.columns(2)
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
-    for k, v in atributos_items[:half]:
-        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
-        col4.write(f"{k}: {v['final']}{mod_str}")
-    for k, v in atributos_items[half:]:
-        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
-        col5.write(f"{k}: {v['final']}{mod_str}")
+    for k, data in atributos_items[:half]:
+        bonus = f" ({'+' if data['mod'] > 0 else ''}{data['mod']})" if data['mod'] != 0 else ""
+        col4.write(f"{k}: {data['final']}{bonus}")
+    for k, data in atributos_items[half:]:
+        bonus = f" ({'+' if data['mod'] > 0 else ''}{data['mod']})" if data['mod'] != 0 else ""
+        col5.write(f"{k}: {data['final']}{bonus}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
@@ -80,42 +80,23 @@ if st.session_state.gerado:
     st.success("Personagem Revelado!")
 
     export_text = io.StringIO()
-    export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK
-
-")
-    export_text.write(f"Idade: {idade} (D4: {idade_d4})
-")
-    export_text.write(f"Fardo: {fardo_nome}
-Arcano: {arcano}
-
-")
-    export_text.write("Atributos:
-")
-    for k, v in atributos.items():
-        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
-        export_text.write(f"- {k}: {v['final']}{mod_str}
-")
-    export_text.write("
-Habilidades:
-")
+    export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
+    export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
+    export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
+    export_text.write("Atributos:\n")
+    for k, data in atributos.items():
+        mod = data['mod']
+        mod_str = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
+        export_text.write(f"- {k}: {data['final']}{mod_str}\n")
+    export_text.write("\nHabilidades:\n")
     for nome, valor in habilidades:
-        export_text.write(f"- {nome}: +{valor}%
-")
-    export_text.write(f"
-Alinhamento: {cortina} (D4: {cortina_d4})
-
-")
-    export_text.write("Estigmas:
-")
+        export_text.write(f"- {nome}: +{valor}%\n")
+    export_text.write(f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n")
+    export_text.write("Estigmas:\n")
     for est in estigmas:
-        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})
-  → {est['Descrição']}
-")
-    export_text.write(f"
-Estado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}
-")
-    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})
-")
+        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n")
+    export_text.write(f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
+    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n")
 
     st.download_button(
         label="💾 Baixar Ficha em .txt",
