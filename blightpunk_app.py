@@ -63,19 +63,21 @@ if st.session_state.gerado:
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
 
-    components.html(f"""
-        <div style="text-align: center;">
-            <img src="data:image/png;base64,{img_base64}" alt="Arcano"
-                 style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
-            <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
-        </div>
-        <style>
-        @keyframes fadeIn {{
-            from {{ opacity: 0; transform: scale(1.05); }}
-            to {{ opacity: 1; transform: scale(1); }}
+components.html(f"""
+    <div style="text-align: center;">
+        <img id="arcano-img" src="data:image/png;base64,{img_base64}" alt="Arcano"
+             style="max-width: 100%; height: auto; opacity: 0; transition: opacity 1.5s ease-in-out;" />
+        <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
+    </div>
+    <script>
+    window.addEventListener('load', function() {{
+        var img = document.getElementById('arcano-img');
+        if (img) {{
+            img.style.opacity = '1';
         }}
-        </style>
-    """, height=620)
+    }});
+    </script>
+""", height=620)
 
     st.markdown("---")
     col1, col2, col3 = st.columns([1, 2, 2])
