@@ -48,9 +48,14 @@ if st.session_state.gerado:
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
     for k, v in atributos_items[:half]:
-        col4.write(f"{k}: {v}")
-    for k, v in atributos_items[half:]:
-        col5.write(f"{k}: {v}")
+    mod = modificadores.get(k, 0)
+    bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
+    col4.write(f"{k}: {v}{bonus}")
+
+for k, v in atributos_items[half:]:
+    mod = modificadores.get(k, 0)
+    bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
+    col5.write(f"{k}: {v}{bonus}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
