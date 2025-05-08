@@ -1,11 +1,11 @@
+
 import streamlit as st
 import random
 import io
 import importlib
 import base64
-import teste  # importa o módulo inteiro
-importlib.reload(teste)
-
+import teste
+import streamlit.components.v1 as components
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
@@ -36,6 +36,10 @@ def gerar_pdf_com_fundo(texto, imagem_fundo_path):
     buffer.seek(0)
     return buffer
 
+def img_to_base64(path):
+    with open(path, "rb") as img_file:
+        return base64.b64encode(img_file.read()).decode()
+
 st.set_page_config(page_title="Blightpunk – Revelação de Fardo", layout="wide")
 st.title("🔯 Revelação de Fardo – Blightpunk")
 st.markdown("---")
@@ -43,23 +47,14 @@ st.markdown("---")
 if "gerado" not in st.session_state:
     st.session_state.gerado = False
 
-def gerar_personagem():
+if st.button("📜 Revelar Fardo"):
     st.session_state.gerado = True
 
-st.button("📜 Revelar Fardo", on_click=gerar_personagem)
-
-if st.session_state.gerado:
 if st.session_state.gerado:
     idade_d4, idade = teste.sorteio_idade()
     fardo_id, (fardo_nome, arcano) = teste.sorteio_fardo()
-
-    def img_to_base64(path):
-        with open(path, "rb") as img_file:
-            return base64.b64encode(img_file.read()).decode()
-
     img_path = f"images/arcano_{fardo_id}.png"
     img_base64 = img_to_base64(img_path)
-
     atributos = teste.distribuir_atributos(idade_d4)
     habilidades = teste.exibir_habilidades(fardo_id)
     cortina_d4, cortina = teste.sorteio_cortina(fardo_id)
@@ -68,15 +63,12 @@ if st.session_state.gerado:
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
 
-    import streamlit.components.v1 as components
-
     components.html(f"""
         <div style="text-align: center;">
             <img src="data:image/png;base64,{img_base64}" alt="Arcano"
                  style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
             <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
         </div>
-
         <style>
         @keyframes fadeIn {{
             from {{ opacity: 0; transform: scale(1.05); }}
@@ -85,9 +77,7 @@ if st.session_state.gerado:
         </style>
     """, height=400)
 
-
-
-    # Bloco de dados principais
+    st.markdown("---")
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
@@ -103,12 +93,12 @@ if st.session_state.gerado:
     st.subheader("Atributos")
     col4, col5 = st.columns(2)
     atributos_items = list(atributos.items())
-    for k, v in atributos_items[:len(atributos_items) // 2]:
-        bonus = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
-        col4.write(f"{k}: {v['final']}{bonus}")
-    for k, v in atributos_items[len(atributos_items) // 2:]:
-        bonus = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
-        col5.write(f"{k}: {v['final']}{bonus}")
+    for k, v in atributos_items[:len(atributos_items)//2]:
+        mod = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
+        col4.write(f"{k}: {v['final']}{mod}")
+    for k, v in atributos_items[len(atributos_items)//2:]:
+        mod = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
+        col5.write(f"{k}: {v['final']}{mod}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
@@ -130,90 +120,45 @@ if st.session_state.gerado:
     with col9:
         st.subheader("Ce qu’il reste de moi (O que restou de mim)")
         st.write(f"{plaie} (D30: {plaie_roll})")
-        st.subheader("Ce que ma main a trouvé(O que a mão achou)")
+        st.subheader("Ce que ma main a trouvé (O que a mão achou)")
         st.write(f"Objeto #{obj_roll:02d}: {obj_nome}")
         st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
         if obj_regra:
             st.warning(f"⚠️ Regra Especial: {obj_regra}")
 
     st.success("Personagem Revelado!")
-    export_text = io.BytesIO()
-    conteudo = ""
-    conteudo += "████████████████████████████████████████████\n"
-    conteudo += "           FICHA DE FARDO – BLIGHTPUNK\n"
-    conteudo += "████████████████████████████████████████████\n\n"
 
-    conteudo += "ID DA REVELAÇÃO\n"
-    conteudo += f"→ Âge (Idade): {idade} (D4: {idade_d4})\n"
-    conteudo += f"→ Fardeau (Fardo): {fardo_nome}\n"
-    conteudo += f"→ Arcane (Arcano): {arcano}\n\n"
-
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += "ATTRIBUTS (ATRIBUTOS)\n"
-    conteudo += "────────────────────────────────────────────\n"
+    conteudo = io.StringIO()
+    conteudo.write("████████████████████████████████████████████\n")
+    conteudo.write("           FICHA DE FARDO – BLIGHTPUNK\n")
+    conteudo.write("████████████████████████████████████████████\n\n")
+    conteudo.write(f"→ Âge: {idade} (D4: {idade_d4})\n→ Fardeau: {fardo_nome}\n→ Arcane: {arcano}\n\n")
+    conteudo.write("ATTRIBUTS:\n")
     for k, v in atributos.items():
-        val = v["final"]
         mod = v["mod"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        conteudo += f"{k}: {val}{bonus}\n"
-
-    conteudo += "\n────────────────────────────────────────────\n"
-    conteudo += "COMPÉTENCES (HABILIDADES)\n"
-    conteudo += "────────────────────────────────────────────\n"
+        conteudo.write(f"{k}: {v['final']}{bonus}\n")
+    conteudo.write("\nCOMPÉTENCES:\n")
     for nome, valor in habilidades:
-        conteudo += f"- {nome}: +{valor}%\n"
-
-    conteudo += "\n────────────────────────────────────────────\n"
-    conteudo += "ALIGNEMENT (CORTINA)\n"
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += f"{cortina} (D4: {cortina_d4})\n"
-
-    conteudo += "\n────────────────────────────────────────────\n"
-    conteudo += "STIGMATES (ESTIGMAS)\n"
-    conteudo += "────────────────────────────────────────────\n"
+        conteudo.write(f"- {nome}: +{valor}%\n")
+    conteudo.write(f"\nALIGNEMENT: {cortina} (D4: {cortina_d4})\n\n")
+    conteudo.write("STIGMATES:\n")
     for est in estigmas:
-        conteudo += f"[{est['Tipo']}] {est['Nome']} — Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n"
-        conteudo += f"→ {est['Descrição']}\n"
-
-    conteudo += "\n────────────────────────────────────────────\n"
-    conteudo += "ÉTAT DE FORTUNE (ESTADO DE FORTUNA)\n"
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
-
-    conteudo += "\n────────────────────────────────────────────\n"
-    conteudo += "CE QU’IL RESTE DE MOI (O QUE RESTOU DE MIM)\n"
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += f"{plaie} (D30: {plaie_roll})\n\n"
-
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += "OBJET TROUVÉ AU COMMENCEMENT (OBJETO ENCONTRADO)\n"
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += f"{obj_nome} (#{obj_roll:02d})\n"
-    conteudo += f"→ Tipo: {obj_tipo} | Dano: {obj_dano}\n"
+        conteudo.write(f"[{est['Tipo']}] {est['Nome']} — Grau {est['Grau']}\n→ {est['Descrição']}\n")
+    conteudo.write(f"\nÉTAT DE FORTUNE: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
+    conteudo.write(f"CE QU’IL RESTE DE MOI: {plaie} (D30: {plaie_roll})\n\n")
+    conteudo.write(f"OBJET: {obj_nome} (#{obj_roll:02d})\n→ Tipo: {obj_tipo} | Dano: {obj_dano}\n")
     if obj_regra:
-        conteudo += f"⚠️ Regra Especial: {obj_regra}\n"
-    conteudo += "\n"
+        conteudo.write(f"⚠️ Regra Especial: {obj_regra}\n")
+    conteudo.write("\nARCHIVE DU FARD — PARIS, 1919\n")
 
-    conteudo += "────────────────────────────────────────────\n"
-    conteudo += "ARCHIVE DU FARD — PARIS, 1919\n"
+    buffer = io.BytesIO()
+    buffer.write(conteudo.getvalue().encode("utf-8"))
+    buffer.seek(0)
+    pdf_file = gerar_pdf_com_fundo(conteudo.getvalue(), "images/papel_velho.jpg")
 
-    export_text.write(conteudo.encode('utf-8'))
-    pdf_arquivo = gerar_pdf_com_fundo(conteudo, "images/papel_velho.jpg")
     col_txt, col_pdf = st.columns(2)
-
     with col_txt:
-        st.download_button(
-            label="📜 Baixar Ficha em .txt",
-            data=export_text.getvalue(),
-            file_name="ficha_blightpunk.txt",
-            mime="text/plain"
-        )
-
+        st.download_button("📜 Baixar Ficha .txt", data=buffer, file_name="ficha_blightpunk.txt", mime="text/plain")
     with col_pdf:
-        st.download_button(
-            label="📄 Baixar Ficha em PDF",
-            data=pdf_arquivo,
-            file_name="ficha_blightpunk.pdf",
-            mime="application/pdf"
-        )
-
+        st.download_button("📄 Baixar PDF", data=pdf_file, file_name="ficha_blightpunk.pdf", mime="application/pdf")
