@@ -171,21 +171,21 @@ conteudo += "\n"
 conteudo += "────────────────────────────────────────────\n"
 conteudo += "ARCHIVE DU FARD — PARIS, 1919\n"
 export_text.write(conteudo.encode('utf-8'))
-pdf_arquivo = gerar_pdf_com_fundo(conteudo, "images/papel_velho.jpg")
-col_txt, col_pdf = st.columns(2)
+    pdf_arquivo = gerar_pdf_com_fundo(conteudo, "images/papel_velho.jpg")
+    col_txt, col_pdf = st.columns(2)
 
-with col_txt:
-st.download_button(
-label="📜 Baixar Ficha em .txt",
-data=export_text.getvalue(),
-file_name="ficha_blightpunk.txt",
-mime="text/plain"
- )
+    with col_txt:
+        st.download_button(
+            label="📜 Baixar Ficha em .txt",
+            data=export_text.getvalue(),
+            file_name="ficha_blightpunk.txt",
+            mime="text/plain"
+        )
 
-with col_pdf:
-st.download_button(
-label="📄 Baixar Ficha em PDF",
-data=pdf_arquivo,
-file_name="ficha_blightpunk.pdf",
-mime="application/pdf"
-)
+    with col_pdf:
+        st.download_button(
+            label="📄 Baixar Ficha em PDF",
+            data=pdf_arquivo,
+            file_name="ficha_blightpunk.pdf",
+            mime="application/pdf"
+        )
