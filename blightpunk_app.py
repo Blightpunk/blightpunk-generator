@@ -37,20 +37,13 @@ if st.session_state.gerado:
     with col1:
         st.subheader("1. Idade")
         st.write(f"{idade} (D4: {idade_d4})")
-        modificadores_txt = {
-    1: "Présence +5, Raisonnement -5",
-    2: "Sem modificadores.",
-    3: "Sem modificadores.",
-    4: "Raisonnement +5, Corps -5"
-}
-st.caption(f"Ajustes por idade: {modificadores_txt.get(idade_d4)}")
     with col2:
         st.subheader("2. Fardo")
         st.write(f"{fardo_nome}")
     with col3:
         st.subheader("3. Arcano")
         st.write(f"{arcano}")
-
+        
     st.markdown("---")
     st.subheader("Atributos")
     col4, col5 = st.columns(2)
@@ -90,33 +83,33 @@ st.caption(f"Ajustes por idade: {modificadores_txt.get(idade_d4)}")
 
     st.success("Personagem Revelado!")
 
-    export_text = io.BytesIO()
-conteudo = ""
+        export_text = io.BytesIO()
+    conteudo = ""
 
-conteudo += "FICHA DE PERSONAGEM – BLIGHTPUNK\n\n"
-conteudo += f"Idade: {idade} (D4: {idade_d4})\n"
-conteudo += f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n"
-conteudo += "Atributos:\n"
-for k, v in atributos.items():
+    conteudo += "FICHA DE PERSONAGEM – BLIGHTPUNK\n\n"
+    conteudo += f"Idade: {idade} (D4: {idade_d4})\n"
+    conteudo += f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n"
+    conteudo += "Atributos:\n"
+    for k, v in atributos.items():
     val = v["final"]
     mod = v["mod"]
     bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
     conteudo += f"- {k}: {val}{bonus}\n"
-conteudo += "\nHabilidades:\n"
-for nome, valor in habilidades:
+    conteudo += "\nHabilidades:\n"
+    for nome, valor in habilidades:
     conteudo += f"- {nome}: +{valor}%\n"
-conteudo += f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n"
-conteudo += "Estigmas:\n"
-for est in estigmas:
+    conteudo += f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n"
+    conteudo += "Estigmas:\n"
+    for est in estigmas:
     conteudo += f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n"
-conteudo += f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
-conteudo += f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n"
+    conteudo += f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
+    conteudo += f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n"
 
-export_text.write(conteudo.encode('utf-8'))
+    export_text.write(conteudo.encode('utf-8'))
 
-st.download_button(
+    st.download_button(
     label="💾 Baixar Ficha em .txt",
     data=export_text.getvalue(),
     file_name="ficha_blightpunk.txt",
     mime="text/plain"
-)
+    )
