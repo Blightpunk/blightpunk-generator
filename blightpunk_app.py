@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 import io
@@ -83,7 +82,7 @@ if st.session_state.gerado:
 
     st.success("Personagem Revelado!")
 
-        export_text = io.BytesIO()
+    export_text = io.BytesIO()
     conteudo = ""
 
     conteudo += "FICHA DE PERSONAGEM – BLIGHTPUNK\n\n"
@@ -91,25 +90,25 @@ if st.session_state.gerado:
     conteudo += f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n"
     conteudo += "Atributos:\n"
     for k, v in atributos.items():
-    val = v["final"]
-    mod = v["mod"]
-    bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-    conteudo += f"- {k}: {val}{bonus}\n"
+        val = v["final"]
+        mod = v["mod"]
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        conteudo += f"- {k}: {val}{bonus}\n"
     conteudo += "\nHabilidades:\n"
     for nome, valor in habilidades:
-    conteudo += f"- {nome}: +{valor}%\n"
+        conteudo += f"- {nome}: +{valor}%\n"
     conteudo += f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n"
     conteudo += "Estigmas:\n"
     for est in estigmas:
-    conteudo += f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n"
+        conteudo += f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n"
     conteudo += f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n"
     conteudo += f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n"
 
     export_text.write(conteudo.encode('utf-8'))
 
     st.download_button(
-    label="💾 Baixar Ficha em .txt",
-    data=export_text.getvalue(),
-    file_name="ficha_blightpunk.txt",
-    mime="text/plain"
+        label="💾 Baixar Ficha em .txt",
+        data=export_text.getvalue(),
+        file_name="ficha_blightpunk.txt",
+        mime="text/plain"
     )
