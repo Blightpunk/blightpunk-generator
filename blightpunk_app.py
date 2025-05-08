@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 import io
@@ -8,6 +7,18 @@ from teste import (
     sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
     fardos_oficiais
 )
+
+def aplicar_peso_da_idade(idade_d4, atributos):
+    if idade_d4 == 1:
+        atributos["Présence (Presença)"] += 5
+        atributos["Raisonnement (Raciocínio)"] -= 5
+    elif idade_d4 == 4:
+        atributos["Raisonnement (Raciocínio)"] += 5
+        atributos["Corps (Corpo)"] -= 5
+    elif idade_d4 == 5:
+        atributos["Raisonnement (Raciocínio)"] += 10
+        atributos["Corps (Corpo)"] -= 10
+    return atributos
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
 st.title("🕯️ Gerador de Personagem – Blightpunk")
@@ -25,12 +36,15 @@ if st.session_state.gerado:
     idade_d4, idade = sorteio_idade()
     fardo_id, (fardo_nome, arcano) = sorteio_fardo()
     atributos = distribuir_atributos()
+    atributos = aplicar_peso_da_idade(idade_d4, atributos)
     habilidades = exibir_habilidades(fardo_id)
     cortina_d4, cortina = sorteio_cortina(fardo_id)
     estigmas = sortear_estigmas()
     fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
     plaie_roll, plaie = ce_quil_reste()
+
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
+
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
@@ -48,14 +62,9 @@ if st.session_state.gerado:
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
     for k, v in atributos_items[:half]:
-    mod = modificadores.get(k, 0)
-    bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
-    col4.write(f"{k}: {v}{bonus}")
-
-for k, v in atributos_items[half:]:
-    mod = modificadores.get(k, 0)
-    bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
-    col5.write(f"{k}: {v}{bonus}")
+        col4.write(f"{k}: {v}")
+    for k, v in atributos_items[half:]:
+        col5.write(f"{k}: {v}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
