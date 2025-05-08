@@ -49,7 +49,8 @@ def gerar_personagem():
 st.button("📜 Revelar Fardo", on_click=gerar_personagem)
 
 if st.session_state.gerado:
-        idade_d4, idade = teste.sorteio_idade()
+if st.session_state.gerado:
+    idade_d4, idade = teste.sorteio_idade()
     fardo_id, (fardo_nome, arcano) = teste.sorteio_fardo()
 
     def img_to_base64(path):
@@ -72,7 +73,7 @@ if st.session_state.gerado:
     components.html(f"""
         <div style="text-align: center;">
             <img src="data:image/png;base64,{img_base64}" alt="Arcano"
-                style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
+                 style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
             <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
         </div>
 
@@ -83,6 +84,7 @@ if st.session_state.gerado:
         }}
         </style>
     """, height=400)
+
 
 
     # Bloco de dados principais
