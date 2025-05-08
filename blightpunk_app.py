@@ -1,4 +1,3 @@
-
 import streamlit as st
 import random
 import io
@@ -32,7 +31,6 @@ if st.session_state.gerado:
     plaie_roll, plaie = ce_quil_reste()
 
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
-
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
@@ -49,12 +47,12 @@ if st.session_state.gerado:
     col4, col5 = st.columns(2)
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
-    for k, data in atributos_items[:half]:
-        bonus = f" ({'+' if data['mod'] > 0 else ''}{data['mod']})" if data['mod'] != 0 else ""
-        col4.write(f"{k}: {data['final']}{bonus}")
-    for k, data in atributos_items[half:]:
-        bonus = f" ({'+' if data['mod'] > 0 else ''}{data['mod']})" if data['mod'] != 0 else ""
-        col5.write(f"{k}: {data['final']}{bonus}")
+    for k, v in atributos_items[:half]:
+        bonus = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
+        col4.write(f"{k}: {v['final']}{bonus}")
+    for k, v in atributos_items[half:]:
+        bonus = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
+        col5.write(f"{k}: {v['final']}{bonus}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
@@ -79,15 +77,16 @@ if st.session_state.gerado:
 
     st.success("Personagem Revelado!")
 
+    # Exportar para .txt
     export_text = io.StringIO()
     export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
     export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
     export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
     export_text.write("Atributos:\n")
-    for k, data in atributos.items():
-        mod = data['mod']
-        mod_str = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
-        export_text.write(f"- {k}: {data['final']}{mod_str}\n")
+    for k, v in atributos.items():
+        mod = v['mod']
+        bonus = f" ({'+' if mod > 0 else ''}{mod})" if mod != 0 else ""
+        export_text.write(f"- {k}: {v['final']}{bonus}\n")
     export_text.write("\nHabilidades:\n")
     for nome, valor in habilidades:
         export_text.write(f"- {nome}: +{valor}%\n")
