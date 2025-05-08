@@ -377,9 +377,25 @@ def distribuir_atributos():
     }
 
     return atributos_traduzidos
+def aplicar_peso_da_idade(idade, atributos):
+    modificadores = {}
 
+    def altera(attr, valor):
+        if attr in atributos:
+            atributos[attr] += valor
+            modificadores[attr] = valor
 
+    if idade == "18–25":
+        altera("Présence (Presença)", +5)
+        altera("Raisonnement (Raciocínio)", -5)
+    elif idade == "40–55":
+        altera("Raisonnement (Raciocínio)", +5)
+        altera("Corps (Corpo)", -5)
+    elif idade == "60+":
+        altera("Raisonnement (Raciocínio)", +10)
+        altera("Corps (Corpo)", -10)
 
+    return modificadores
 # === PASSO 4 – Compétences (com traduções) ===
 habilidades_por_fardo = {
     0: ["Improvisation (Improvisação)", "Furtivité (Furtividade)", "Athlétisme (Atletismo)", "Observation (Observação)", "Persuasion (Persuasão)"],
