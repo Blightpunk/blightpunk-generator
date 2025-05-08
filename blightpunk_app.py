@@ -3,22 +3,24 @@ import random
 import io
 import importlib
 import teste  # importa o módulo inteiro
-importlib.reload(teste)  # força recarregamento sempre que o app roda
+importlib.reload(teste)
+
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.lib.utils import ImageReader
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+
 pdfmetrics.registerFont(TTFont('EBGaramond', 'fonts/EBGaramond-Regular.ttf'))
+
 def gerar_pdf_com_fundo(texto, imagem_fundo_path):
     buffer = io.BytesIO()
     c = canvas.Canvas(buffer, pagesize=A4)
     fundo = ImageReader(imagem_fundo_path)
     c.drawImage(fundo, 0, 0, width=A4[0], height=A4[1])
     c.setFont("EBGaramond", 11)
-    x = 2.5 * cm
-    y = 27 * cm
+    x, y = 2.5 * cm, 27 * cm
 
     for linha in texto.split('\n'):
         if y < 2 * cm:
@@ -34,7 +36,7 @@ def gerar_pdf_com_fundo(texto, imagem_fundo_path):
     return buffer
 
 st.set_page_config(page_title="Blightpunk – Revelação de Fardo", layout="wide")
-st.title("🕯️ Revelação de Fardo – Blightpunk")
+st.title("🔯 Revelação de Fardo – Blightpunk")
 st.markdown("---")
 
 if "gerado" not in st.session_state:
@@ -55,9 +57,10 @@ if st.session_state.gerado:
     fortune_roll, fortune_etat, faixa = teste.etat_de_fortune_d10()
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
-    
+
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
 
+    # Bloco de dados principais
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
         st.subheader("1. Idade")
@@ -73,17 +76,12 @@ if st.session_state.gerado:
     st.subheader("Atributos")
     col4, col5 = st.columns(2)
     atributos_items = list(atributos.items())
-    half = len(atributos_items) // 2
-    for k, v in atributos_items[:half]:
-        val = v["final"]
-        mod = v["mod"]
-        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        col4.write(f"{k}: {val}{bonus}")
-    for k, v in atributos_items[half:]:
-        val = v["final"]
-        mod = v["mod"]
-        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        col5.write(f"{k}: {val}{bonus}")
+    for k, v in atributos_items[:len(atributos_items) // 2]:
+        bonus = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
+        col4.write(f"{k}: {v['final']}{bonus}")
+    for k, v in atributos_items[len(atributos_items) // 2:]:
+        bonus = f" (+{v['mod']})" if v['mod'] > 0 else f" ({v['mod']})" if v['mod'] < 0 else ""
+        col5.write(f"{k}: {v['final']}{bonus}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
