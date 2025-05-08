@@ -311,9 +311,9 @@ estigmas_sociais = {
 def sorteio_idade():
     idade_d4 = random.randint(1, 4)
     idades = {
-        1: "18-20",
-        2: "21–40",
-        3: "41–60",
+        1: "18-25",
+        2: "26–39",
+        3: "40–55",
         4: "60+"
     }
     return idade_d4, idades[idade_d4]
@@ -372,10 +372,10 @@ def distribuir_atributos(idade_d4):
             pontos -= 1
 
     modificadores = {
-        1: {"Présence": 5, "Raisonnement": -5},     # 18–20
-        2: {},                                      # 21–40
-        3: {},                                      # 41–60
-        4: {"Raisonnement": 5, "Corps": -5}         # 60+
+        1: {"Présence": 5, "Raisonnement": -5},     # 18–25
+        2: {},                                      # 26–39
+        3: {"Raisonnement": 5,"Corps": -5},         # 40–55
+        4: {"Raisonnement": 10, "Corps": -10}       # 60+
     }.get(idade_d4, {})
 
     atributos_modificados = {}
