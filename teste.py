@@ -389,6 +389,23 @@ def distribuir_atributos(idade_d4):
         }
 
     return atributos_modificados
+    
+    def aplicar_peso_da_idade(atributos, idade_d4):
+    modificadores = {
+        1: {"Présence": 5, "Raisonnement": -5},
+        2: {},
+        3: {},
+        4: {"Raisonnement": 5, "Corps": -5},
+        5: {"Raisonnement": 5, "Corps": -5},
+        6: {"Raisonnement": 10, "Corps": -10}
+    }
+
+    for attr, mod in modificadores.get(idade_d4, {}).items():
+        for k in atributos:
+            if k.startswith(attr):  # pega "Raisonnement" de "Raisonnement (Raciocínio)"
+                atributos[k] += mod
+
+    return atributos, modificadores.get(idade_d4, {})
 
 # === PASSO 4 – Compétences (com traduções) ===
 habilidades_por_fardo = {
