@@ -55,6 +55,7 @@ if st.session_state.gerado:
     fortune_roll, fortune_etat, faixa = teste.etat_de_fortune_d10()
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
+    
     st.image(f"images/arcano_{fardo_id}.png", caption=arcano)
 
     col1, col2, col3 = st.columns([1, 2, 2])
@@ -67,7 +68,7 @@ if st.session_state.gerado:
     with col3:
         st.subheader("3. Arcano")
         st.write(f"{arcano}")
-        
+
     st.markdown("---")
     st.subheader("Atributos")
     col4, col5 = st.columns(2)
@@ -101,14 +102,14 @@ if st.session_state.gerado:
     with col8:
         st.subheader("Estado de Fortuna")
         st.write(f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
-with col9:
-    st.subheader("Ce qu’il reste de moi (O que restou de mim)")
-    st.write(f"{plaie} (D30: {plaie_roll})")
-    st.subheader("Objet trouvé au commencement")
-    st.write(f"Objeto #{obj_roll:02d}: {obj_nome}")
-    st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
-    if obj_regra:
-        st.warning(f"⚠️ Regra Especial: {obj_regra}")
+    with col9:
+        st.subheader("Ce qu’il reste de moi (O que restou de mim)")
+        st.write(f"{plaie} (D30: {plaie_roll})")
+        st.subheader("Objet trouvé au commencement")
+        st.write(f"Objeto #{obj_roll:02d}: {obj_nome}")
+        st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
+        if obj_regra:
+            st.warning(f"⚠️ Regra Especial: {obj_regra}")
 
     st.success("Personagem Revelado!")
     export_text = io.BytesIO()
