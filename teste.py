@@ -575,7 +575,7 @@ def ce_quil_reste():
 # === EXECUÇÃO GERAL ===
 idade_d4, idade = sorteio_idade()
 fardo_id, (fardo_nome, arcano) = sorteio_fardo()
-atributos = distribuir_atributos()
+atributos = distribuir_atributos(idade_d4)
 habilidades = exibir_habilidades(fardo_id)
 cortina_d4, cortina = sorteio_cortina(fardo_id)
 estigmas = sortear_estigmas()
