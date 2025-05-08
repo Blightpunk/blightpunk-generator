@@ -1,6 +1,9 @@
 import streamlit as st
 import random
 import io
+import importlib
+import teste
+importlib.reload(teste)
 
 from teste import (
     sorteio_idade, sorteio_fardo, distribuir_atributos,
