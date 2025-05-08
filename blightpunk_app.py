@@ -74,7 +74,7 @@ if st.session_state.gerado:
         st.subheader("Estado de Fortuna")
         st.write(f"{fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
     with col9:
-        st.subheader("Ce qu’il reste de moi")
+        st.subheader("Ce qu’il reste de moi (O que restou de mim)")
         st.write(f"{plaie} (D30: {plaie_roll})")
 
     st.success("Personagem Revelado!")
