@@ -49,15 +49,16 @@ def gerar_personagem():
 st.button("📜 Revelar Fardo", on_click=gerar_personagem)
 
 if st.session_state.gerado:
-    idade_d4, idade = teste.sorteio_idade()
+        idade_d4, idade = teste.sorteio_idade()
     fardo_id, (fardo_nome, arcano) = teste.sorteio_fardo()
 
-def img_to_base64(path):
-    with open(path, "rb") as img_file:
-        return base64.b64encode(img_file.read()).decode()
+    def img_to_base64(path):
+        with open(path, "rb") as img_file:
+            return base64.b64encode(img_file.read()).decode()
 
-img_path = f"images/arcano_{fardo_id}.png"
-img_base64 = img_to_base64(img_path)
+    img_path = f"images/arcano_{fardo_id}.png"
+    img_base64 = img_to_base64(img_path)
+
     atributos = teste.distribuir_atributos(idade_d4)
     habilidades = teste.exibir_habilidades(fardo_id)
     cortina_d4, cortina = teste.sorteio_cortina(fardo_id)
@@ -69,18 +70,19 @@ img_base64 = img_to_base64(img_path)
     import streamlit.components.v1 as components
 
     components.html(f"""
-    <div style="text-align: center;">
-        <img src="data:image/png;base64,{img_base64}" alt="Arcano"
-             style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
-        <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
-    </div>
-    <style>
-    @keyframes fadeIn {{
-        from {{ opacity: 0; transform: scale(1.05); }}
-        to {{ opacity: 1; transform: scale(1); }}
-    }}
-    </style>
-""", height=400)
+        <div style="text-align: center;">
+            <img src="data:image/png;base64,{img_base64}" alt="Arcano"
+                style="width: 300px; opacity: 0; animation: fadeIn 2s ease-in-out forwards;" />
+            <p style="font-family: EB Garamond; font-size: 18px; color: #ccc;">{arcano}</p>
+        </div>
+
+        <style>
+        @keyframes fadeIn {{
+            from {{ opacity: 0; transform: scale(1.05); }}
+            to {{ opacity: 1; transform: scale(1); }}
+        }}
+        </style>
+    """, height=400)
 
 
     # Bloco de dados principais
