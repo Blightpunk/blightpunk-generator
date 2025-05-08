@@ -354,48 +354,45 @@ def sorteio_fardo():
 # === PASSO 3 – Atributos (30 base + 80 distribuídos, máx. 80) ===
 import random
 
-def distribuir_atributos():
+def distribuir_atributos(idade_d4):
     nomes_atributos = {
-        "Corps": "Corpo",              # Força física, resistência, ação
-        "Clarté": "Clareza",           # Percepção, atenção, lucidez imediata
-        "Raisonnement": "Raciocínio",  # Lógica, cálculo, dedução
-        "Présence": "Presença"         # Carisma, autoridade, impacto social
+        "Corps": "Corpo",
+        "Clarté": "Clareza",
+        "Raisonnement": "Raciocínio",
+        "Présence": "Presença"
     }
 
-    atributos = {k: 30 for k in nomes_atributos.keys()}
+    atributos_base = {k: 30 for k in nomes_atributos}
     pontos = 80
 
     while pontos > 0:
-        escolha = random.choice(list(atributos.keys()))
-        if atributos[escolha] < 80:
-            atributos[escolha] += 1
+        escolha = random.choice(list(atributos_base.keys()))
+        if atributos_base[escolha] < 80:
+            atributos_base[escolha] += 1
             pontos -= 1
 
-    # Retornar com tradução: {"Corps (Corpo)": 42, ...}
-    atributos_traduzidos = {
-        f"{k} ({nomes_atributos[k]})": v for k, v in atributos.items()
+    modificadores = {k: 0 for k in atributos_base}
+
+    if idade_d4 == 1:
+        modificadores["Présence"] += 5
+        modificadores["Raisonnement"] -= 5
+    elif idade_d4 == 4:
+        modificadores["Raisonnement"] += 5
+        modificadores["Corps"] -= 5
+    elif idade_d4 == 5:
+        modificadores["Raisonnement"] += 10
+        modificadores["Corps"] -= 10
+
+    atributos_finais = {
+        f"{k} ({nomes_atributos[k]})": {
+            "base": atributos_base[k],
+            "mod": modificadores[k],
+            "final": atributos_base[k] + modificadores[k]
+        } for k in atributos_base
     }
 
-    return atributos_traduzidos
-def aplicar_peso_da_idade(idade, atributos):
-    modificadores = {}
+    return atributos_finais
 
-    def altera(attr, valor):
-        if attr in atributos:
-            atributos[attr] += valor
-            modificadores[attr] = valor
-
-    if idade == "18–25":
-        altera("Présence (Presença)", +5)
-        altera("Raisonnement (Raciocínio)", -5)
-    elif idade == "40–55":
-        altera("Raisonnement (Raciocínio)", +5)
-        altera("Corps (Corpo)", -5)
-    elif idade == "60+":
-        altera("Raisonnement (Raciocínio)", +10)
-        altera("Corps (Corpo)", -10)
-
-    return modificadores
 # === PASSO 4 – Compétences (com traduções) ===
 habilidades_por_fardo = {
     0: ["Improvisation (Improvisação)", "Furtivité (Furtividade)", "Athlétisme (Atletismo)", "Observation (Observação)", "Persuasion (Persuasão)"],
