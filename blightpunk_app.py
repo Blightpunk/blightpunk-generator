@@ -105,6 +105,11 @@ if st.session_state.gerado:
         st.subheader("Ce qu’il reste de moi (O que restou de mim)")
         st.write(f"{plaie} (D30: {plaie_roll})")
         st.subheader("Objet trouvé au commencement")
+        st.write(f"Objeto #{obj_roll:02d}: {obj_nome}")
+        st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
+        if obj_regra:
+          st.warning(f"⚠️ Regra Especial: {obj_regra}")
+
     st.success("Personagem Revelado!")
     export_text = io.BytesIO()
     conteudo = ""
