@@ -103,7 +103,7 @@ if st.session_state.gerado:
     with col9:
         st.subheader("Ce qu’il reste de moi (O que restou de mim)")
         st.write(f"{plaie} (D30: {plaie_roll})")
-        st.subheader("Objet trouvé au commencement")
+        st.subheader("Ce que ma main a trouvé(O que a mão achou)")
         st.write(f"Objeto #{obj_roll:02d}: {obj_nome}")
         st.write(f"→ Tipo: {obj_tipo} | Dano: {obj_dano}")
         if obj_regra:
