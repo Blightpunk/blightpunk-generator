@@ -1,3 +1,4 @@
+
 import streamlit as st
 import random
 import io
@@ -7,18 +8,6 @@ from teste import (
     sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
     fardos_oficiais
 )
-
-def aplicar_peso_da_idade(idade_d4, atributos):
-    if idade_d4 == 1:
-        atributos["Présence (Presença)"] += 5
-        atributos["Raisonnement (Raciocínio)"] -= 5
-    elif idade_d4 == 4:
-        atributos["Raisonnement (Raciocínio)"] += 5
-        atributos["Corps (Corpo)"] -= 5
-    elif idade_d4 == 5:
-        atributos["Raisonnement (Raciocínio)"] += 10
-        atributos["Corps (Corpo)"] -= 10
-    return atributos
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
 st.title("🕯️ Gerador de Personagem – Blightpunk")
@@ -35,8 +24,7 @@ st.button("📜 Revelar Personagem", on_click=gerar_personagem)
 if st.session_state.gerado:
     idade_d4, idade = sorteio_idade()
     fardo_id, (fardo_nome, arcano) = sorteio_fardo()
-    atributos = distribuir_atributos()
-    atributos = aplicar_peso_da_idade(idade_d4, atributos)
+    atributos = distribuir_atributos(idade_d4)
     habilidades = exibir_habilidades(fardo_id)
     cortina_d4, cortina = sorteio_cortina(fardo_id)
     estigmas = sortear_estigmas()
@@ -62,9 +50,11 @@ if st.session_state.gerado:
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
     for k, v in atributos_items[:half]:
-        col4.write(f"{k}: {v}")
+        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
+        col4.write(f"{k}: {v['final']}{mod_str}")
     for k, v in atributos_items[half:]:
-        col5.write(f"{k}: {v}")
+        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
+        col5.write(f"{k}: {v['final']}{mod_str}")
 
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
@@ -89,23 +79,43 @@ if st.session_state.gerado:
 
     st.success("Personagem Revelado!")
 
-    # Exportar para .txt
     export_text = io.StringIO()
-    export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK\n\n")
-    export_text.write(f"Idade: {idade} (D4: {idade_d4})\n")
-    export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
-    export_text.write("Atributos:\n")
+    export_text.write("FICHA DE PERSONAGEM – BLIGHTPUNK
+
+")
+    export_text.write(f"Idade: {idade} (D4: {idade_d4})
+")
+    export_text.write(f"Fardo: {fardo_nome}
+Arcano: {arcano}
+
+")
+    export_text.write("Atributos:
+")
     for k, v in atributos.items():
-        export_text.write(f"- {k}: {v}\n")
-    export_text.write("\nHabilidades:\n")
+        mod_str = f" ({'+' if v['mod'] > 0 else ''}{v['mod']})" if v['mod'] != 0 else ""
+        export_text.write(f"- {k}: {v['final']}{mod_str}
+")
+    export_text.write("
+Habilidades:
+")
     for nome, valor in habilidades:
-        export_text.write(f"- {nome}: +{valor}%\n")
-    export_text.write(f"\nAlinhamento: {cortina} (D4: {cortina_d4})\n\n")
-    export_text.write("Estigmas:\n")
+        export_text.write(f"- {nome}: +{valor}%
+")
+    export_text.write(f"
+Alinhamento: {cortina} (D4: {cortina_d4})
+
+")
+    export_text.write("Estigmas:
+")
     for est in estigmas:
-        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})\n  → {est['Descrição']}\n")
-    export_text.write(f"\nEstado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}\n")
-    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})\n")
+        export_text.write(f"- [{est['Tipo']}] {est['Nome']} – Grau {est['Grau']} (Rolagem: {est['Rolagem']})
+  → {est['Descrição']}
+")
+    export_text.write(f"
+Estado de Fortuna: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}
+")
+    export_text.write(f"Ce qu’il reste de moi: {plaie} (D30: {plaie_roll})
+")
 
     st.download_button(
         label="💾 Baixar Ficha em .txt",
