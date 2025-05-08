@@ -58,7 +58,27 @@ if st.session_state.gerado:
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
 
-    st.image(f"images/arcano_{fardo_id}.png", caption=arcano, width=300)
+    import streamlit.components.v1 as components
+
+components.html(f"""
+<div style="text-align: center;">
+  <img src="images/arcano_{fardo_id}.png" alt="Arcano"
+       style="
+         width: 300px;
+         opacity: 0;
+         animation: fadeIn 2s ease-in-out forwards;
+       " />
+  <p style="font-family: EB Garamond; font-size: 18px; color: #333;">{arcano}</p>
+</div>
+
+<style>
+@keyframes fadeIn {{
+  from {{ opacity: 0; transform: scale(1.05); }}
+  to   {{ opacity: 1; transform: scale(1); }}
+}}
+</style>
+""", height=350)
+
 
     # Bloco de dados principais
     col1, col2, col3 = st.columns([1, 2, 2])
