@@ -75,7 +75,7 @@ if st.session_state.gerado:
             to {{ opacity: 1; transform: scale(1); }}
         }}
         </style>
-    """, height=650)
+    """, height=620)
 
     st.markdown("---")
     col1, col2, col3 = st.columns([1, 2, 2])
