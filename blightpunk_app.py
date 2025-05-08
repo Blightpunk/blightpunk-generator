@@ -5,8 +5,8 @@ import importlib
 import teste  # importa o módulo inteiro
 importlib.reload(teste)  # força recarregamento sempre que o app roda
 
-st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
-st.title("🕯️ Gerador de Personagem – Blightpunk")
+st.set_page_config(page_title="Blightpunk – Revelação de Fardo", layout="wide")
+st.title("🕯️ Revelação de Fardo – Blightpunk")
 st.markdown("---")
 
 if "gerado" not in st.session_state:
@@ -15,7 +15,7 @@ if "gerado" not in st.session_state:
 def gerar_personagem():
     st.session_state.gerado = True
 
-st.button("📜 Revelar Personagem", on_click=gerar_personagem)
+st.button("📜 Revelar Fardo", on_click=gerar_personagem)
 
 if st.session_state.gerado:
     idade_d4, idade = teste.sorteio_idade()
@@ -82,7 +82,7 @@ if st.session_state.gerado:
     export_text = io.BytesIO()
     conteudo = ""
 
-    conteudo += "FICHA DE PERSONAGEM – BLIGHTPUNK\n\n"
+    conteudo += "FICHA DE FARDO – BLIGHTPUNK\n\n"
     conteudo += f"Idade: {idade} (D4: {idade_d4})\n"
     conteudo += f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n"
     conteudo += "Atributos:\n"
