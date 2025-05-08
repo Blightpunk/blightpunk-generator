@@ -1,3 +1,4 @@
+
 import streamlit as st
 import random
 import io
@@ -5,7 +6,7 @@ import io
 from teste import (
     sorteio_idade, sorteio_fardo, distribuir_atributos, exibir_habilidades,
     sorteio_cortina, sortear_estigmas, etat_de_fortune_d10, ce_quil_reste,
-    fardos_oficiais, aplicar_peso_da_idade
+    fardos_oficiais
 )
 
 st.set_page_config(page_title="Blightpunk – Gerador de Personagem", layout="wide")
@@ -24,7 +25,6 @@ if st.session_state.gerado:
     idade_d4, idade = sorteio_idade()
     fardo_id, (fardo_nome, arcano) = sorteio_fardo()
     atributos = distribuir_atributos(idade_d4)
-    atributos, modificadores = aplicar_peso_da_idade(atributos, idade_d4)
     habilidades = exibir_habilidades(fardo_id)
     cortina_d4, cortina = sorteio_cortina(fardo_id)
     estigmas = sortear_estigmas()
@@ -48,11 +48,17 @@ if st.session_state.gerado:
     col4, col5 = st.columns(2)
     atributos_items = list(atributos.items())
     half = len(atributos_items) // 2
-    for k, v in atributos.items():
-        mod = v['mod']
-        val = v['final']
+    for k, v in atributos_items[:half]:
+        mod = v["mod"]
+        val = v["final"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        st.write(f"{k}: {val}{bonus}")
+        col4.write(f"{k}: {val}{bonus}")
+    for k, v in atributos_items[half:]:
+        mod = v["mod"]
+        val = v["final"]
+        bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
+        col5.write(f"{k}: {val}{bonus}")
+
     st.subheader("Habilidades")
     col6, col7 = st.columns(2)
     for i, (nome, valor) in enumerate(habilidades):
@@ -82,10 +88,10 @@ if st.session_state.gerado:
     export_text.write(f"Fardo: {fardo_nome}\nArcano: {arcano}\n\n")
     export_text.write("Atributos:\n")
     for k, v in atributos.items():
-        attr_base = k.split()[0]
-        mod = modificadores.get(attr_base, 0)
+        mod = v["mod"]
+        val = v["final"]
         bonus = f" (+{mod})" if mod > 0 else f" ({mod})" if mod < 0 else ""
-        export_text.write(f"- {k}: {v}{bonus}\n")
+        export_text.write(f"- {k}: {val}{bonus}\n")
     export_text.write("\nHabilidades:\n")
     for nome, valor in habilidades:
         export_text.write(f"- {nome}: +{valor}%\n")
