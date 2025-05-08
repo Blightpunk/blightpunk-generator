@@ -63,8 +63,8 @@ if st.session_state.gerado:
     plaie_roll, plaie = teste.ce_quil_reste()
     obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = teste.sortear_objeto_d100()
 
-    st.image(f"images/arcano_{fardo_id}.png", caption=arcano, width=300)
-
+    st.image(f"data:image/png;base64,{img_base64}", caption=arcano, width=300)
+    
     st.markdown("---")
     col1, col2, col3 = st.columns([1, 2, 2])
     with col1:
