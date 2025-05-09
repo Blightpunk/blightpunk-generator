@@ -29,7 +29,7 @@ def gerar_pdf_com_fundo(texto, imagem_fundo_path, imagem_fardo_path):
             c.setFont("EBGaramond", 13)
             y = 27 * cm
         c.drawString(x, y, linha)
-        y -= 0.6 * cm
+        y -= 0.5 * cm
     c.save()
     buffer.seek(0)
     return buffer
