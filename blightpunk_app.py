@@ -19,7 +19,7 @@ def gerar_pdf_com_fundo(texto, imagem_fundo_path, imagem_fardo_path):
     fundo = ImageReader(imagem_fundo_path)
     fardo = ImageReader(imagem_fardo_path)
     c.drawImage(fundo, 0, 0, width=A4[0], height=A4[1])
-    c.drawImage(fardo, 13.5*cm, 24*cm, width=5*cm, height=5*cm, mask='auto')
+    c.drawImage(fardo, 5.5*cm, 21.5*cm, width=10*cm, height=12.5*cm, preserveAspectRatio=True, mask='auto')
     c.setFont("EBGaramond", 13)
     x, y = 2.5 * cm, 27 * cm
 
