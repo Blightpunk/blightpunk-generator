@@ -21,15 +21,32 @@ def gerar_pdf_com_fundo(texto, imagem_fundo_path, imagem_fardo_path):
     c.drawImage(fundo, 0, 0, width=A4[0], height=A4[1])
     c.drawImage(fardo, 15*cm, 20*cm, width=4.5*cm, height=6.5*cm, preserveAspectRatio=True, mask='auto')
     c.setFont("EBGaramond", 13)
-    x, y = 2.5 * cm, 27 * cm
-    for linha in texto.split('\n'):
-        if y < 2 * cm:
-            c.showPage()
-            c.drawImage(fundo, 0, 0, width=A4[0], height=A4[1])
-            c.setFont("EBGaramond", 13)
-            y = 27 * cm
-        c.drawString(x, y, linha)
-        y -= 0.5 * cm
+    from reportlab.pdfgen.textobject import PDFTextObject
+
+text_obj = c.beginText(x, y)
+text_obj.setFont("EBGaramond", 13)
+
+max_width = A4[0] - (x + 2.5*cm)  # margem direita de 2.5cm
+
+for linha in texto.split('\n'):
+    if y < 2 * cm:
+        c.drawText(text_obj)
+        c.showPage()
+        c.drawImage(fundo, 0, 0, width=A4[0], height=A4[1])
+        c.setFont("EBGaramond", 13)
+        text_obj = c.beginText(x, 27 * cm)
+        text_obj.setFont("EBGaramond", 13)
+        y = 27 * cm
+
+    while linha:
+        for i in range(len(linha), 0, -1):
+            if c.stringWidth(linha[:i], "EBGaramond", 13) < max_width:
+                break
+        text_obj.textLine(linha[:i])
+        linha = linha[i:]
+        y -= 0.7 * cm
+
+c.drawText(text_obj)
     c.save()
     buffer.seek(0)
     return buffer
