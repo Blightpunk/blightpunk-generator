@@ -358,7 +358,7 @@ def distribuir_atributos(idade_d4):
     nomes_atributos = {
         "Corps": "Corpo",              # Força física, resistência, ação
         "Clarté": "Clareza",           # Percepção, atenção, lucidez imediata
-        "Raisonnement": "Raciocínio",  # Lógica, cálculo, dedução
+        "Sagacité": "Raciocínio",  # Lógica, cálculo, dedução
         "Présence": "Presença"         # Carisma, autoridade, impacto social
     }
 
@@ -1189,8 +1189,8 @@ fortune_roll, fortune_etat, faixa = etat_de_fortune_d10()
 plaie_roll, plaie = ce_quil_reste()
 
 # === EXIBIÇÃO FINAL ===
-print(f"PASSO 1 – Âge: {idade} (D4: {idade_d4})")
-print(f"PASSO 2 – Fardeau: {fardo_nome} (Arcano: {arcano})")
+print(f"PASSO 1 – Âge(Idade): {idade} (D4: {idade_d4})")
+print(f"PASSO 2 – Fardeau(Fardo): {fardo_nome} (Arcano: {arcano})")
 print("PASSO 3 – Attributs:")
 for k, data in atributos.items():
     val = data["final"]
@@ -1205,10 +1205,10 @@ print("PASSO 6 – Stigmates:")
 for e in estigmas:
     print(f"  [{e['Tipo']}] {e['Nome']} – Grau {e['Grau']} (Rolagem: {e['Rolagem']})")
     print(f"    → {e['Descrição']}")
-print(f"PASSO 8 – État de Fortune: {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
+print(f"PASSO 8 – État de Fortune(Estado de Fortuna): {fortune_etat} (D10: {fortune_roll}) → Sucesso: {faixa}")
 print(f"PASSO 9 – Ce qu’il reste de moi(O Que Restou de Mim): {plaie} (D30: {plaie_roll})")
 obj_roll, obj_nome, obj_tipo, obj_dano, obj_regra = sortear_objeto_d100()
-print(f"PASSO 10 – Objet trouvé au commencement:")
+print(f"PASSO 10 – O que a Mão Toca:")
 print(f"  Objeto #{obj_roll:02d}: {obj_nome}")
 print(f"    → Tipo: {obj_tipo} | Dano: {obj_dano}")
 if obj_regra:
